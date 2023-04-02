@@ -3,10 +3,24 @@ const quoteText = document.getElementById("quote");
 const quoteAuthor = document.getElementById("author");
 const twitterBtn = document.getElementById("twitter");
 const newQuoteBtn = document.getElementById("new-quote-button");
+const loader = document.getElementById("loader");
 
 let apiQuotes = [];
 
+//Loading Fuction
+function loading() {
+  loader.hidden = false;
+  quoteContainer.hidden = true;
+}
+
+//Complete loading
+function completeLoad() {
+  loader.hidden = true;
+  quoteContainer.hidden = false;
+}
+
 function newQuote() {
+  loading();
   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
   quoteText.textContent = quote.text;
   if (quote.author == null) {
@@ -14,6 +28,7 @@ function newQuote() {
   } else {
     quoteAuthor.textContent = quote.author;
   }
+  completeLoad();
 }
 
 // Get quotes from API
@@ -32,8 +47,9 @@ function tweetQuote() {
   const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent}. -${quoteAuthor.textContent}`;
   window.open(twitterUrl, "_blank");
 }
-// On load
-getQuotes();
 
 newQuoteBtn.addEventListener("click", newQuote);
 twitterBtn.addEventListener("click", tweetQuote);
+
+// On load
+getQuotes();

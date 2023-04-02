@@ -8,8 +8,12 @@ let apiQuotes = [];
 
 function newQuote() {
   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-  console.log(quote);
-  return quote;
+  quoteText.textContent = quote.text;
+  if (quote.author == null) {
+    quoteAuthor.textContent = "Unknown";
+  } else {
+    quoteAuthor.textContent = quote.author;
+  }
 }
 
 // Get quotes from API
@@ -24,5 +28,12 @@ async function getQuotes() {
   }
 }
 
+function tweetQuote() {
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent}. -${quoteAuthor.textContent}`;
+  window.open(twitterUrl, "_blank");
+}
 // On load
 getQuotes();
+
+newQuoteBtn.addEventListener("click", newQuote);
+twitterBtn.addEventListener("click", tweetQuote);
